@@ -16,14 +16,14 @@ def drawRays(angles, distances, color, label):
       plt.plot([0,x], [0,y], c=color, alpha=0.3, label=label)
 
 mypath = './csv'
-stdoutfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
-print(stdoutfiles)
+csvfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
+print(csvfiles)
 
 random_index = np.random.randint(180, size=10)
 
 drawRays(range(360), [0.5 for i in range(360)], (0,0,1), 'boundary')
 
-for fname, color in zip(stdoutfiles, [(1,0,0), (0,1,0), (0,0,1)]):
+for fname, color in zip(csvfiles, [(1,0,0), (0,1,0), (0,0,1)]):
   readFile = join(mypath, fname)
   my_data = np.genfromtxt(readFile, delimiter=',')
   for i in random_index:
