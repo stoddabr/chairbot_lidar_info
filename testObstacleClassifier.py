@@ -17,7 +17,7 @@ def sequenceNumbers(l):
 
 def objDetection(dataInput, objMinSiz_deg = 5, d_m=1.5):
   #sort out data points
-  idx = [i for i, x in enumerate(dataInput) if (x < 0.5 and x > 0)]
+  idx = [i for i, x in enumerate(dataInput) if (x < 0.75 and x > 0)]
 
   #evaluate objects based on size
   obstacles = []
