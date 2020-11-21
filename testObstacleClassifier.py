@@ -3,11 +3,46 @@ from math import sin, cos, pi
 from os import listdir
 from os.path import isfile, join
 
+def sequenceNumbers(l):
+  res = [[l[0]]]
+
+  for i in range(0,len(l)-1):
+
+    if (l[i])==(l[i+1]-1):
+      res[-1].append((l[i+1]))
+    else:
+      res.append([l[i+1]])
+
+  return res
+
+def objDetection(dataInput, objMinSiz_deg = 5, d_m=1.5):
+  #sort out data points
+  idx = [i for i, x in enumerate(dataInput) if (x < 0.5 and x > 0)]
+
+  #evaluate objects based on size
+  obstacles = []
+  if len(idx)>0:
+    seqs = sequenceNumbers(idx)
+    for s in range(0, len(seqs) - 1):
+      if len(seqs[s]) > objMinSiz_deg:
+        obstacles.append(seqs[s])
+
+  #create output dict
+  obstDict = {}
+  if len(obstacles)>0:
+    for i in range(0, len(obstacles)):
+      deg2obj_deg = sum(obstacles[i])/len(obstacles[i])
+      d2obj_m = dataInput[int(round(deg2obj_deg))]
+      obstDict[str(int(round(deg2obj_deg)))] = [deg2obj_deg, d2obj_m, obstacles[i], dataInput[obstacles[i]]]
+
+  return obstDict
 
 def classifyLidar(data):
   ''' returns true if obstacle, false otherwise, data is array '''
   # TODO Mark, your code here
-  return False
+  detectionRes = objDetection(data)
+  return bool(detectionRes)
+
 
 mypath = './csv'
 csvfiles = [f for f in listdir(mypath) if isfile(join(mypath, f))]
